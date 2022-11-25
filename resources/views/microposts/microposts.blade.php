@@ -14,6 +14,23 @@
                         {{-- 投稿内容 --}}
                         <p class="mb-0">{!! nl2br(e($micropost->content)) !!}</p>
                     </div>
+                @if (Auth::user()->is_favoriting($micropost->id) )      
+                    <div>
+                            {{-- お気に入り解除ボタンのフォーム --}}
+                            {!! Form::open(['route' => ['favorites.unfavorite', $micropost->id], 'method' => 'delete']) !!}
+                                {!! Form::submit('お気に入り解除', ['class' => 'btn btn-primary btn-sm']) !!}
+                            {!! Form::close() !!}
+
+                    </div>
+                @else
+                    <div>
+                            {{-- お気に入りボタンのフォーム --}}
+                            {!! Form::open(['route' => ['favorites.favorite', $micropost->id], 'method' => 'post']) !!}
+                                {!! Form::submit('お気に入り登録', ['class' => 'btn btn-primary btn-sm']) !!}
+                            {!! Form::close() !!}
+
+                    </div>
+                @endif
                     <div>
                         @if (Auth::id() == $micropost->user_id)
                             {{-- 投稿削除ボタンのフォーム --}}
